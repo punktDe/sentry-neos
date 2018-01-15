@@ -1,0 +1,20 @@
+{
+    "description": "This package handles Neos specific exceptions / adds neos specific information to the exception.",
+    "type": "neos-package",
+    "name": "punktde/sentry-neos",
+    "license": "MIT",
+    "require": {
+        "neos/neos": "^3.3",
+        "punktDe/sentry-flow": "1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PunktDe\\Sentry\\Neos\\": "Classes/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "PunktDe.Sentry.Neos"
+        }
+    }
+}
