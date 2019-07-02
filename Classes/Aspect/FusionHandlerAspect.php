@@ -17,7 +17,7 @@ class FusionHandlerAspect
     protected $errorHandler;
 
     /**
-     * Forward all exceptions that are handled in TypoScript rendering exception handlers to Sentry
+     * Forward all exceptions that are handled in Fusion rendering exception handlers to Sentry
      *
      * @Flow\After("within(Neos\Fusion\Core\ExceptionHandlers\AbstractRenderingExceptionHandler) && method(.*->handle())")
      * @param JoinPointInterface $joinPoint
