@@ -8,13 +8,13 @@ namespace PunktDe\Sentry\Neos\Aspect;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Aop\JoinPointInterface;
+use Neos\Fusion\Core\ExceptionHandlers\AbsorbingHandler;
 
 /**
  * @Flow\Aspect
  */
 class FusionHandlerAspect
 {
-
     /**
      * @Flow\Inject
      * @var \PunktDe\Sentry\Flow\Handler\ErrorHandler
@@ -29,8 +29,21 @@ class FusionHandlerAspect
      */
     public function captureException(JoinPointInterface $joinPoint): void
     {
-        $exception = $joinPoint->getMethodArgument('exception');
-        $fusionPath = $joinPoint->getMethodArgument('fusionPath');
+        if ($joinPoint->getProxy() instanceof AbsorbingHandler) {
+            return;
+        }
+
+        $exception = null;
+        $fusionPath = 'not-set';
+
+        if ($joinPoint->isMethodArgument('exception')) {
+            $exception = $joinPoint->getMethodArgument('exception');
+        }
+
+        if ($joinPoint->isMethodArgument('fusionPath')) {
+            $fusionPath = $joinPoint->getMethodArgument('fusionPath');
+        }
+
         $this->errorHandler->handleException($exception, ['fusionPath' => $fusionPath]);
     }
 }
