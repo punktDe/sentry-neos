@@ -1,6 +1,11 @@
 <?php
 namespace PunktDe\Sentry\Neos\Aspect;
 
+/*
+ *  (c) 2020 punkt.de GmbH - Karlsruhe, Germany - http://punkt.de
+ *  All rights reserved.
+ */
+
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Aop\JoinPointInterface;
 
@@ -22,11 +27,10 @@ class FusionHandlerAspect
      * @Flow\After("within(Neos\Fusion\Core\ExceptionHandlers\AbstractRenderingExceptionHandler) && method(.*->handle())")
      * @param JoinPointInterface $joinPoint
      */
-    public function captureException(JoinPointInterface $joinPoint)
+    public function captureException(JoinPointInterface $joinPoint): void
     {
         $exception = $joinPoint->getMethodArgument('exception');
-        $args = $joinPoint->getMethodArguments();
-        $fusionPath = isset($args['fusionPath']) ? $args['fusionPath'] : $args['typoScriptPath'];
-        $this->errorHandler->handleException($exception, array('fusionPath' => $fusionPath));
+        $fusionPath = $joinPoint->getMethodArgument('fusionPath');
+        $this->errorHandler->handleException($exception, ['fusionPath' => $fusionPath]);
     }
 }
