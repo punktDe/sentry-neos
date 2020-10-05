@@ -17,7 +17,7 @@ class FusionHandlerAspect
 {
     /**
      * @Flow\Inject
-     * @var \PunktDe\Sentry\Flow\Handler\ErrorHandler
+     * @var \PunktDe\Sentry\Flow\SentryClient
      */
     protected $errorHandler;
 
